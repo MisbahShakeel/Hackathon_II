@@ -1,0 +1,27 @@
+# Dependencies
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+env.bak/
+venv.bak/
+
+# Local configuration files
+.settings.local.json
+
+# Ignore the phaseI directory which is a separate git repository
+phaseI/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python todo_cli.py add \"Test CLI functionality\" --description \"This is a test task for the CLI application\" --priority high --tags test,cli)"
+    ]
+  }
+}
