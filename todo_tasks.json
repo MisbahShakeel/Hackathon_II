@@ -1,13 +1,183 @@
 [
   {
-    "id": "b1160d9d-014a-4cf7-a924-355a1232bdde",
-    "title": "Book",
-    "description": "My book",
+    "id": "1",
+    "title": "Test CLI functionality",
+    "description": "This is a test task for the CLI application",
+    "completed": false,
+    "created_at": "2025-12-31T23:45:55.004220",
+    "due_date": null,
+    "priority": "high",
+    "tags": [
+      "test",
+      "cli"
+    ],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "2",
+    "title": "Test CLI functionality",
+    "description": "This is a test task for the CLI application",
     "completed": true,
-    "created_at": "2025-12-31T23:35:44.849342",
-    "due_date": "2025-03-11T00:00:00",
+    "created_at": "2025-12-31T23:46:15.756352",
+    "due_date": null,
+    "priority": "high",
+    "tags": [
+      "test",
+      "cli"
+    ],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "3",
+    "title": "Complete project report",
+    "description": "Write and submit the final project report",
+    "completed": false,
+    "created_at": "2025-12-31T23:48:17.976998",
+    "due_date": "2025-01-15T00:00:00",
+    "priority": "high",
+    "tags": [
+      "work",
+      "important"
+    ],
+    "subtasks": [
+      {
+        "id": "20b865bd-b5db-43d5-a2e2-5e24c9c68c08",
+        "title": "Write introduction",
+        "completed": true
+      }
+    ],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "5",
+    "title": "Future task",
+    "description": null,
+    "completed": false,
+    "created_at": "2025-12-31T23:50:20.210045",
+    "due_date": "2026-06-15T00:00:00",
+    "priority": "low",
+    "tags": [],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "6",
+    "title": "Final test task",
+    "description": null,
+    "completed": false,
+    "created_at": "2025-12-31T23:52:47.704042",
+    "due_date": null,
+    "priority": "low",
+    "tags": [
+      "final",
+      "test"
+    ],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "7",
+    "title": "CLI task from modified app.py",
+    "description": "This task was added using the modified CLI version of app.py",
+    "completed": true,
+    "created_at": "2026-01-01T00:06:39.927366",
+    "due_date": null,
+    "priority": "high",
+    "tags": [
+      "cli",
+      "modified"
+    ],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "8",
+    "title": "My task",
+    "description": null,
+    "completed": false,
+    "created_at": "2026-01-01T00:11:09.070867",
+    "due_date": null,
+    "priority": "high",
+    "tags": [],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "9",
+    "title": "New sequential task",
+    "description": null,
+    "completed": false,
+    "created_at": "2026-01-01T00:22:45.874209",
+    "due_date": null,
     "priority": "medium",
     "tags": [],
-    "subtasks": []
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "10",
+    "title": "Another sequential task",
+    "description": null,
+    "completed": false,
+    "created_at": "2026-01-01T00:23:44.509760",
+    "due_date": "2026-12-31T00:00:00",
+    "priority": "high",
+    "tags": [],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "11",
+    "title": "Physical_AI",
+    "description": null,
+    "completed": false,
+    "created_at": "2026-01-01T00:25:19.163063",
+    "due_date": null,
+    "priority": "high",
+    "tags": [],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "12",
+    "title": "Write documentation",
+    "description": null,
+    "completed": false,
+    "created_at": "2026-01-02T23:18:39.262760",
+    "due_date": null,
+    "priority": "medium",
+    "tags": [
+      "documentation"
+    ],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
+  },
+  {
+    "id": "13",
+    "title": "My Book",
+    "description": null,
+    "completed": false,
+    "created_at": "2026-01-02T23:19:35.844860",
+    "due_date": "2026-01-02T00:00:00",
+    "priority": "medium",
+    "tags": [
+      "completed"
+    ],
+    "subtasks": [],
+    "recurrence": null,
+    "reminders": []
   }
 ]
