@@ -13,8 +13,11 @@ venv.bak/
 # Local configuration files
 .settings.local.json
 
-# Ignore the phaseI directory which is a separate git repository
-phaseI/
+# Ignore the .git folder inside phaseI since it's a separate git repository
+phaseI/.git/
+phaseI/.venv/
+phaseI/__pycache__/
+phaseI/history/
 
 # IDE
 .vscode/
