@@ -2,8 +2,7 @@
 """
 CLI Todo Application
 
-A command-line interface for managing tasks. This is the main application file
-converted from the original web-based version to a CLI-based application.
+A command-line interface for managing tasks based on the existing web-based todo application.
 """
 import argparse
 import sys
@@ -18,21 +17,12 @@ from filter_service import FilterService
 from sort_service import SortService
 
 
-class TodoApp:
+class TodoCLI:
     def __init__(self):
         self.storage_service = StorageService()
         self.filter_service = FilterService()
         self.sort_service = SortService()
         self.tasks = self.storage_service.load_tasks()
-        # Ensure the ID counter is properly set after loading tasks
-        highest_id = 0
-        for task in self.tasks:
-            if task.id.isdigit():
-                task_id = int(task.id)
-                if task_id > highest_id:
-                    highest_id = task_id
-        from task_model import Task
-        Task._next_id = highest_id + 1
 
     def save_tasks(self):
         """Save tasks to storage"""
@@ -91,9 +81,6 @@ class TodoApp:
         # Apply sorting
         sorted_tasks = self.sort_service.sort_tasks(filtered_tasks, sort_by, sort_order)
 
-        # Process recurring tasks - generate new instances if needed
-        self.process_recurring_tasks()
-
         # Display tasks
         if not sorted_tasks:
             print("No tasks found.")
@@ -147,108 +134,7 @@ class TodoApp:
                 sub_status = "[x]" if subtask.completed else "[ ]"
                 print(f"     {sub_status} {subtask.title}")
 
-        # Show recurrence info if applicable
-        if task.has_recurring_pattern():
-            recurrence = task.recurrence
-            pattern = recurrence.get('pattern', 'unknown')
-            interval = recurrence.get('interval', 1)
-            end_condition = recurrence.get('end_condition', {})
-            end_type = end_condition.get('type', 'never')
-
-            recurrence_info = f" | Recurring: {pattern}"
-            if interval > 1:
-                recurrence_info += f" every {interval}"
-
-            if end_type != 'never':
-                recurrence_info += f" (ends: {end_type})"
-
-            print(f"   {recurrence_info}")
-
         print()  # Extra newline for readability
-
-    def process_recurring_tasks(self):
-        """Process recurring tasks and generate new instances as needed."""
-        # Get all recurring tasks that should generate new instances
-        recurring_tasks_to_process = [task for task in self.tasks
-                                      if task.is_recurring() and
-                                      task.should_generate_next_instance() and
-                                      not task.has_reached_end_condition()]
-
-        for task in recurring_tasks_to_process:
-            # Create a new instance based on the original task
-            new_task = self.create_recurring_instance(task)
-            if new_task:
-                print(f"Generated new instance of recurring task: {new_task.title}")
-
-        if recurring_tasks_to_process:
-            self.save_tasks()
-
-    def create_recurring_instance(self, original_task: Task) -> Optional[Task]:
-        """Create a new instance of a recurring task based on its recurrence rule."""
-        if not original_task.is_recurring():
-            return None
-
-        # Calculate the next due date
-        next_due_date = original_task.calculate_next_due_date()
-
-        # Create a new task with the same properties as the original
-        new_task_data = {
-            'title': original_task.title,
-            'description': original_task.description,
-            'due_date': next_due_date.isoformat() if next_due_date else None,
-            'priority': original_task.priority,
-            'tags': original_task.tags.copy(),
-            'recurrence': original_task.recurrence,  # Preserve the recurrence rule
-            'reminders': original_task.reminders  # Preserve the reminders
-        }
-
-        # Create new task instance
-        new_task = Task(new_task_data)
-
-        # Add to tasks list
-        self.tasks.append(new_task)
-
-        return new_task
-
-    def set_task_recurrence(self, task_id: str, pattern: str, interval: int = 1, end_condition: Dict = None):
-        """Set recurrence pattern for a task."""
-        task = self.find_task_by_id(task_id)
-        if not task:
-            print(f"Error: Task with ID {task_id} not found.")
-            return False
-
-        # Validate pattern
-        valid_patterns = ['daily', 'weekly', 'monthly', 'custom']
-        if pattern not in valid_patterns:
-            print(f"Error: Invalid pattern '{pattern}'. Valid patterns are: {', '.join(valid_patterns)}")
-            return False
-
-        # Set default end condition if not provided
-        if end_condition is None:
-            end_condition = {'type': 'never'}
-
-        # Create recurrence rule
-        task.recurrence = {
-            'pattern': pattern,
-            'interval': interval,
-            'end_condition': end_condition
-        }
-
-        self.save_tasks()
-        print(f"Recurrence pattern '{pattern}' (every {interval}) set for task '{task.title}'.")
-        return True
-
-    def remove_task_recurrence(self, task_id: str):
-        """Remove recurrence pattern from a task."""
-        task = self.find_task_by_id(task_id)
-        if not task:
-            print(f"Error: Task with ID {task_id} not found.")
-            return False
-
-        task.recurrence = None
-        self.save_tasks()
-        print(f"Recurrence pattern removed from task '{task.title}'.")
-        return True
 
     def complete_task(self, task_id: str, completed: bool = True):
         """Mark a task as complete or incomplete"""
@@ -382,7 +268,6 @@ class TodoApp:
             completion_percentage = (completed_tasks / total_tasks) * 100
             print(f"\nOverall completion: {completion_percentage:.1f}%")
 
-
 def create_parser():
     """Create and configure the argument parser"""
     parser = argparse.ArgumentParser(
@@ -390,13 +275,13 @@ def create_parser():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  app.py add "Complete project" --priority high --due "2025-12-31" --tags work,important
-  app.py list --status active --priority high
-  app.py complete <task-id>
-  app.py list --due-date overdue
-  app.py search "project"
-  app.py subtask add <task-id> "Write draft"
-  app.py stats
+  todo add "Complete project" --priority high --due "2024-01-15" --tags work,important
+  todo list --status active --priority high
+  todo complete <task-id>
+  todo list --due-date overdue
+  todo search "project"
+  todo subtask add <task-id> "Write draft"
+  todo stats
         """
     )
 
@@ -464,47 +349,24 @@ Examples:
     # Stats command
     subparsers.add_parser('stats', help='Show task statistics')
 
-    # Recurring task command
-    recurring_parser = subparsers.add_parser('recurring', help='Manage recurring tasks')
-    recurring_subparsers = recurring_parser.add_subparsers(dest='recurring_command', help='Recurring task commands')
-
-    # Add recurring task
-    add_recurring_parser = recurring_subparsers.add_parser('add', help='Add recurrence pattern to task')
-    add_recurring_parser.add_argument('task_id', help='Task ID to add recurrence to')
-    add_recurring_parser.add_argument('--pattern', '-p', choices=['daily', 'weekly', 'monthly', 'custom'],
-                                     required=True, help='Recurrence pattern')
-    add_recurring_parser.add_argument('--interval', '-i', type=int, default=1,
-                                     help='Recurrence interval (default: 1)')
-    add_recurring_parser.add_argument('--end-never', action='store_true',
-                                     help='Never end recurrence (default)')
-    add_recurring_parser.add_argument('--end-after', type=int,
-                                     help='End after specified number of occurrences')
-    add_recurring_parser.add_argument('--end-on',
-                                     help='End on specific date (YYYY-MM-DD)')
-
-    # Remove recurring task
-    remove_recurring_parser = recurring_subparsers.add_parser('remove', help='Remove recurrence pattern from task')
-    remove_recurring_parser.add_argument('task_id', help='Task ID to remove recurrence from')
-
     return parser
-
 
 def main():
     """Main entry point"""
     parser = create_parser()
     args = parser.parse_args()
 
-    # Initialize app
-    app = TodoApp()
+    # Initialize CLI
+    cli = TodoCLI()
 
     # Handle commands
     if args.command == 'add':
         tags = args.tags.split(',') if args.tags else []
-        app.add_task(args.title, args.description, args.due, args.priority, tags)
+        cli.add_task(args.title, args.description, args.due, args.priority, tags)
 
     elif args.command == 'list':
         tags = args.tags.split(',') if args.tags else None
-        app.list_tasks(
+        cli.list_tasks(
             status=args.status if args.status != 'all' else None,
             priority=args.priority if args.priority != 'all' else None,
             tags=tags,
@@ -515,14 +377,14 @@ def main():
         )
 
     elif args.command == 'complete':
-        app.complete_task(args.task_id, not args.incomplete)
+        cli.complete_task(args.task_id, not args.incomplete)
 
     elif args.command == 'delete':
-        app.delete_task(args.task_id)
+        cli.delete_task(args.task_id)
 
     elif args.command == 'update':
         tags = args.tags.split(',') if args.tags else None
-        app.update_task(
+        cli.update_task(
             args.task_id,
             title=args.title,
             description=args.description,
@@ -532,40 +394,21 @@ def main():
         )
 
     elif args.command == 'search':
-        app.search_tasks(args.query)
+        cli.search_tasks(args.query)
 
     elif args.command == 'subtask':
         if args.subtask_command == 'add':
-            app.add_subtask(args.task_id, args.title, args.completed)
+            cli.add_subtask(args.task_id, args.title, args.completed)
         elif args.subtask_command == 'complete':
-            app.complete_subtask(args.task_id, args.subtask_id, not args.incomplete)
+            cli.complete_subtask(args.task_id, args.subtask_id, not args.incomplete)
         else:
             parser.print_help()
 
     elif args.command == 'stats':
-        app.stats()
-
-    elif args.command == 'recurring':
-        if args.recurring_command == 'add':
-            # Build end condition
-            end_condition = {'type': 'never'}  # default
-
-            if args.end_after:
-                end_condition = {'type': 'after_count', 'value': args.end_after}
-            elif args.end_on:
-                end_condition = {'type': 'on_date', 'value': args.end_on}
-            elif args.end_never:
-                end_condition = {'type': 'never'}
-
-            app.set_task_recurrence(args.task_id, args.pattern, args.interval, end_condition)
-        elif args.recurring_command == 'remove':
-            app.remove_task_recurrence(args.task_id)
-        else:
-            parser.print_help()
+        cli.stats()
 
     else:
         parser.print_help()
-
 
 if __name__ == '__main__':
     main()
