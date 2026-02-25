@@ -1,0 +1,193 @@
+INFO:     Started server process [12268]
+INFO:     Waiting for application startup.
+2026-02-09 19:17:35,852 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-09 19:17:35,852 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2026-02-09 19:17:35,852 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-09 19:17:35,853 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("todo")
+2026-02-09 19:17:35,853 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-09 19:17:35,853 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:59765 - "POST /api/todos HTTP/1.1" 307 Temporary Redirect
+2026-02-09 19:17:48,933 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-09 19:17:48,942 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:59765 - "POST /api/todos/ HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1815, in _execute_context
+    context = constructor(
+        dialect, self, conn, execution_options, *args, **kw
+    )
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\default.py", line 1496, in _init_compiled
+    flattened_processors[key](compiled_params[key])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\sqltypes.py", line 3734, in process
+    value = value.hex
+            ^^^^^^^^^
+AttributeError: 'str' object has no attribute 'hex'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\applications.py", line 1139, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 120, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 106, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 420, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\dependencies\utils.py", line 669, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\anyio\to_thread.py", line 61, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\anyio\_backends\_asyncio.py", line 2525, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "C:\Users\hp\OneDrive\Desktop\Hackathon_II\phaseII\backend\src\api\todos.py", line 36, in get_current_user_from_request
+    user = db.get(User, user_id)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\orm\session.py", line 3680, in get
+    return self._get_impl(
+           ~~~~~~~~~~~~~~^
+        entity,
+        ^^^^^^^
+    ...<7 lines>...
+        bind_arguments=bind_arguments,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\orm\session.py", line 3859, in _get_impl
+    return db_load_fn(
+        self,
+    ...<5 lines>...
+        bind_arguments=bind_arguments,
+    )
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\orm\loading.py", line 695, in load_on_pk_identity
+    session.execute(
+    ~~~~~~~~~~~~~~~^
+        q,
+        ^^
+    ...<2 lines>...
+        bind_arguments=bind_arguments,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1821, in _execute_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str(statement), parameters, None, None
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\base.py", line 1815, in _execute_context
+    context = constructor(
+        dialect, self, conn, execution_options, *args, **kw
+    )
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\engine\default.py", line 1496, in _init_compiled
+    flattened_processors[key](compiled_params[key])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\sqlalchemy\sql\sqltypes.py", line 3734, in process
+    value = value.hex
+            ^^^^^^^^^
+sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+[SQL: SELECT user.email AS user_email, user.id AS user_id, user.hashed_password AS user_hashed_password, user.is_active AS user_is_active, user.created_at AS user_created_at, user.updated_at AS user_updated_at 
+FROM user 
+WHERE user.id = ?]
+[parameters: [{'pk_1': '76de72ca-ec2e-4935-abdd-90ac1f10264c'}]]

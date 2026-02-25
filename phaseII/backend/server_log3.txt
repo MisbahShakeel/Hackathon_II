@@ -1,0 +1,86 @@
+INFO:     Started server process [9920]
+INFO:     Waiting for application startup.
+2026-02-09 19:21:11,259 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-09 19:21:11,259 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2026-02-09 19:21:11,259 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-09 19:21:11,261 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("todo")
+2026-02-09 19:21:11,261 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-09 19:21:11,262 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-02-09 19:21:25,871 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-09 19:21:25,880 INFO sqlalchemy.engine.Engine SELECT user.email AS user_email, user.id AS user_id, user.hashed_password AS user_hashed_password, user.is_active AS user_is_active, user.created_at AS user_created_at, user.updated_at AS user_updated_at 
+FROM user 
+WHERE user.id = ?
+2026-02-09 19:21:25,881 INFO sqlalchemy.engine.Engine [generated in 0.00031s] ('76de72caec2e4935abdd90ac1f10264c',)
+2026-02-09 19:21:25,885 INFO sqlalchemy.engine.Engine SELECT todo.title, todo.description, todo.completed, todo.id, todo.owner_id, todo.created_at, todo.updated_at 
+FROM todo 
+WHERE todo.owner_id = ?
+ LIMIT ? OFFSET ?
+2026-02-09 19:21:25,885 INFO sqlalchemy.engine.Engine [generated in 0.00032s] ('76de72caec2e4935abdd90ac1f10264c', 100, 0)
+2026-02-09 19:21:25,887 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:59804 - "GET /api/todos/ HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\applications.py", line 1139, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 120, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 106, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 452, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 278, in serialize_response
+    raise ResponseValidationError(
+    ...<3 lines>...
+    )
+fastapi.exceptions.ResponseValidationError: 5 validation errors:
+  {'type': 'missing', 'loc': ('response', 0, 'title'), 'msg': 'Field required', 'input': (Todo(title='Test Todo', id=UUID('8f4da027-2640-4c1d-86d4-e1162c1448fb'), created_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 727880), description='Thi ... (1 characters truncated) ...  is a test todo', completed=False, owner_id=UUID('76de72ca-ec2e-4935-abdd-90ac1f10264c'), updated_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 728038)),)}
+  {'type': 'missing', 'loc': ('response', 0, 'id'), 'msg': 'Field required', 'input': (Todo(title='Test Todo', id=UUID('8f4da027-2640-4c1d-86d4-e1162c1448fb'), created_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 727880), description='Thi ... (1 characters truncated) ...  is a test todo', completed=False, owner_id=UUID('76de72ca-ec2e-4935-abdd-90ac1f10264c'), updated_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 728038)),)}
+  {'type': 'missing', 'loc': ('response', 0, 'owner_id'), 'msg': 'Field required', 'input': (Todo(title='Test Todo', id=UUID('8f4da027-2640-4c1d-86d4-e1162c1448fb'), created_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 727880), description='Thi ... (1 characters truncated) ...  is a test todo', completed=False, owner_id=UUID('76de72ca-ec2e-4935-abdd-90ac1f10264c'), updated_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 728038)),)}
+  {'type': 'missing', 'loc': ('response', 0, 'created_at'), 'msg': 'Field required', 'input': (Todo(title='Test Todo', id=UUID('8f4da027-2640-4c1d-86d4-e1162c1448fb'), created_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 727880), description='Thi ... (1 characters truncated) ...  is a test todo', completed=False, owner_id=UUID('76de72ca-ec2e-4935-abdd-90ac1f10264c'), updated_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 728038)),)}
+  {'type': 'missing', 'loc': ('response', 0, 'updated_at'), 'msg': 'Field required', 'input': (Todo(title='Test Todo', id=UUID('8f4da027-2640-4c1d-86d4-e1162c1448fb'), created_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 727880), description='Thi ... (1 characters truncated) ...  is a test todo', completed=False, owner_id=UUID('76de72ca-ec2e-4935-abdd-90ac1f10264c'), updated_at=datetime.datetime(2026, 2, 9, 14, 19, 8, 728038)),)}
+
+  File "C:\Users\hp\OneDrive\Desktop\Hackathon_II\phaseII\backend\src\api\todos.py", line 49, in read_todos
+    GET /api/todos/

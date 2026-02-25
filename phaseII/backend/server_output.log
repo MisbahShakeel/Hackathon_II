@@ -1,0 +1,10 @@
+INFO:     Started server process [11064]
+INFO:     Waiting for application startup.
+2026-02-09 19:09:42,526 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-09 19:09:42,526 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
+2026-02-09 19:09:42,527 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-09 19:09:42,528 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("todo")
+2026-02-09 19:09:42,528 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-09 19:09:42,528 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
